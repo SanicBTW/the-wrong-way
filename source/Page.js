@@ -172,12 +172,6 @@ document.addEventListener('DOMContentLoaded', () =>
         document.body.addEventListener(val, (e) => e.preventDefault());
     });
 
-    var sex = setTimeout(() => 
-    {
-        document.getElementById('blackTransition').style.top = "-2000px";
-        clearTimeout(sex);
-    }, 500);
-
     document.title = titleShuffle[Math.floor(Math.random() * titleShuffle.length)];
 
     showOffline("404");
