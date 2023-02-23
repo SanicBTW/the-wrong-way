@@ -89,7 +89,7 @@ var titleShuffle =
 
 var transitioning = false;
 
-function showOffline(errorText) 
+function showOffline(errorCode, errorText) 
 {
     timedHandler.endTime = 25;
     var mainDiv = document.getElementById('notonline');
@@ -119,9 +119,9 @@ function showOffline(errorText)
     }
 
     var obj1 = timedHandler.createObject("text1", "h1", "Oopsies", "animatedText");
-    var obj2 = timedHandler.createObject("text2", "h2", "Page not found", "animatedText");
+    var obj2 = timedHandler.createObject("text2", "h2", errorText, "animatedText");
     var obj3 = timedHandler.createObject("text3", "p", shuffle[Math.floor(Math.random() * shuffle.length)], "animatedText");
-    var obj4 = timedHandler.createObject("text4", "p", errorText, "animatedTFixed");
+    var obj4 = timedHandler.createObject("text4", "p", errorCode, "animatedTFixed");
 
     timedHandler.timer(0, function()
     {
@@ -172,7 +172,33 @@ document.addEventListener('DOMContentLoaded', () =>
         document.body.addEventListener(val, (e) => e.preventDefault());
     });
 
-    document.title = titleShuffle[Math.floor(Math.random() * titleShuffle.length)];
+    var title = titleShuffle[Math.floor(Math.random() * titleShuffle.length)];
+    var errorCode = "ERR_NOT_ASIGNED";
+    var errorMsg = "Page not found";
 
-    showOffline("404");
+    var searchWholeArgs = window.location.search.substring(window.location.search.indexOf("?") + 1).split("&");
+    searchWholeArgs.forEach((arg) =>
+    {
+        var coolArgs = arg.split("=");
+        switch(coolArgs[0])
+        {
+            case "err_code":
+                errorCode = coolArgs[1];
+                break;
+            case "err_msg":
+                errorMsg = "";
+                coolArgs[1].split("%20").forEach((appender) => 
+                {
+                    errorMsg += `${appender} `;
+                });
+                break;
+            case "title":
+                title = coolArgs[1];
+                break;
+        }
+    });
+
+    document.title = title;
+
+    showOffline(errorCode, errorMsg);
 });
