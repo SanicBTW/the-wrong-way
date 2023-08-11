@@ -70,7 +70,7 @@ var shuffle =
     'KFDJGIKDHPRIOGUAEHJPBIDFUHBIERAPDFOSBNOIFDKHBNAFGJMBVPFHBNFDIKHJDA',
     "@sancobtw on twitter",
     "@sanco on youtube",
-    "thanks for the 9k views on the week 7 preview!"
+    "thanks for the 41k views on the week 7 preview!"
 ];
 
 var titleShuffle = 
@@ -100,7 +100,7 @@ function showOffline(errorCode, errorText)
         {
             if (e.key == "r")
             {
-                if (transitioning) return;
+                if (transitioning || !titleShuffle.includes(document.title)) return;
 
                 transitioning = true;
                 obj3.style.opacity = 0;
@@ -180,17 +180,14 @@ document.addEventListener('DOMContentLoaded', () =>
     searchWholeArgs.forEach((arg) =>
     {
         var coolArgs = arg.split("=");
+        coolArgs[1] = decodeURI(coolArgs[1]);
         switch(coolArgs[0])
         {
             case "err_code":
                 errorCode = coolArgs[1];
                 break;
             case "err_msg":
-                errorMsg = "";
-                coolArgs[1].split("%20").forEach((appender) => 
-                {
-                    errorMsg += `${appender} `;
-                });
+                errorMsg = coolArgs[1]; 
                 break;
             case "title":
                 title = coolArgs[1];
