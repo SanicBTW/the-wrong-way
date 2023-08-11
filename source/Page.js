@@ -100,14 +100,18 @@ function showOffline(errorCode, errorText)
         {
             if (e.key == "r")
             {
-                if (transitioning || !titleShuffle.includes(document.title)) return;
+                if (transitioning) return;
 
                 transitioning = true;
                 obj3.style.opacity = 0;
                 obj3.style.top = "-30px";
                 var fuck = setInterval(() =>
                 {
-                    document.title = titleShuffle[Math.floor(Math.random() * titleShuffle.length)];
+                    if (titleShuffle.includes(document.title))
+                    {
+                        document.title = titleShuffle[Math.floor(Math.random() * titleShuffle.length)];
+                    }
+
                     obj3.innerText = shuffle[Math.floor(Math.random() * shuffle.length)];
                     obj3.style.top = "0px";
                     obj3.style.opacity = 1;
